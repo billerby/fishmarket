@@ -1,0 +1,55 @@
+#{extends 'main.html' /}
+#{set title:'Prisnoteringar' /}
+#{if paginator != null && paginator.size() != 0}
+<div class="row-fluid">
+	<div class="span8">
+		<h2>&{'quotations.header'} ${maxDateString}</h2>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span4">
+		#{form @Prices.search()}
+				<input type="text" name="quotationDate" id="form-input-quotationDate" placeholder="&{'form.label.quotationDate'}" class="input-medium search-query" value="${flash.quotationDate}">
+				<input type="submit"  class="btn" value="&{'form.label.search'}" />
+		#{/form}
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<table class="table table-striped">
+	    	<thead>
+	    		<tr>
+	    			<th>&{'quotations.nameOfSpecies'}</th>
+	    			<th>&{'quotations.boxes'}</th>
+	    			<th>&{'quotations.kilos'}</th>
+	    			<th>&{'quotations.averagePrice'}</th>
+	    			<th>&{'quotations.maxPrice'}</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody>
+	    		#{paginate.list items:paginator, as:'quotation'} 
+			    <tr>
+				    <td>${quotation.species.name}</td>
+				    <td>${quotation.boxes}</td>
+				    <td>${quotation.kilos}</td>
+				    <td>${quotation.avgPrice}</td>
+				    <td>${quotation.maxPrice}</td>
+			    </tr>
+			     #{/paginate.list}
+	    	</tbody>
+	    </table>
+	     #{paginate.controls items:paginator /} 
+	</div>
+</div>		
+#{/if}
+#{else}
+<div class="row-fluid">
+	<div class="span3">
+		<div class="alert">
+			<button class="close" data-dismiss="alert">�</button>
+			Hittade inga prisnoteringar.
+		</div>
+	</div>
+</div>
+
+#{/else}

@@ -5,6 +5,7 @@ import java.io.IOException;
 import models.Fish;
 import models.Quotation;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
@@ -48,28 +49,6 @@ public class FetchPrices extends Job {
 
 	}
 
-	public static void main(String[] args) {
-		Document doc;
-		DateTime auctionDate;
-
-		try {
-			doc = Jsoup.connect("http://www.gfa.se/prisnotering.htm").get();
-
-			Element dateTable = doc.select("table").get(1);
-			String dateString = dateTable.select("tr > td").get(3).text();
-			auctionDate = DateUtil.createDateFromString(dateString, false);
-
-			Elements tables = doc.getElementsByTag("table");
-			boolean pageOne = true;
-			extractPriceData(tables, pageOne, auctionDate);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
 	public static void extractPriceData(Elements tables, boolean pageOne,
 			DateTime auctionDate) {
 		int i = 0;
@@ -79,7 +58,24 @@ public class FetchPrices extends Job {
 			tableBeginIndex = 4;
 		}
 		for (Element table : tables) {
+			// Find the starting table for prices
+			try {
+				String headerCell = table.select("tr > td").get(1).text();
+				if (StringUtils.contains(headerCell, "FISKNAMN")){
+					if (pageOne){ // page one has an extra row in the top of the table for some reason (average for whole day???)
+						tableBeginIndex = i + 4;
+					}else {
+						tableBeginIndex = i + 3;
+					}
+				}
+			}catch (IndexOutOfBoundsException e){
+				// Since the html is not looking the same all time we need to catch this exception.
+				Logger.info("ugly code", e);
+			}
+			
 			outerloop:
+				
+			
 			// tableBeginIndex tells which table holds first quotation
 			if (i >= tableBeginIndex) {
 				Elements tds = table.getElementsByTag("td");
@@ -145,6 +141,7 @@ public class FetchPrices extends Job {
 	}
 
 	private static Money washAmount(String htmlPrice) {
+		System.out.println(htmlPrice);
 		if (htmlPrice != null) {
 			int krPosition = htmlPrice.indexOf('k') - 1;
 			String tmpAmount = htmlPrice.substring(0, krPosition);

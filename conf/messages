@@ -5,6 +5,8 @@
 navigation.home=Hem
 navigation.sitename=Fiskpriser
 
+form.label.quotationDate=Välj datum
+
 quotations.header=Prisnoteringar
 quotations.nameOfSpecies=Artnamn
 quotations.boxes=Antal lådor
