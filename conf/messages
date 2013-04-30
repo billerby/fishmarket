@@ -1,0 +1,25 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+navigation.home=Hem
+navigation.sitename=Fiskpriser
+
+quotations.header=Prisnoteringar
+quotations.nameOfSpecies=Artnamn
+quotations.boxes=Antal lådor
+quotations.kilos=Antal kilo
+quotations.averagePrice=Notering medel
+quotations.maxPrice=Notering högsta
+
+#Pagination
+play-paginate.first=&laquo;&nbsp;Första
+play-paginate.prev=&lsaquo;&nbsp;Föregående
+play-paginate.next=Nästa&nbsp;&rsaquo;
+play-paginate.last=Sista&nbsp;&raquo;
+
+play-paginate.summary.display=Visar raderna
+play-paginate.summary.to=till
+play-paginate.summary.from=av
+play-paginate.summary.entries=noteringar
+

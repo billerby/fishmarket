@@ -1,0 +1,225 @@
+Fish(abborre):
+    name: ABBORRE
+    
+Fish(bergtunga1):
+    name: BERGTUNGA 1
+    
+Fish(bergtunga2):
+    name: BERGTUNGA 2
+    
+Fish(bergtunga3):
+    name: BERGTUNGA 3
+    
+Fish(bergtunga4):
+    name: BERGTUNGA 4
+    
+Fish(bleka1):
+    name: BLEKA 1
+    
+Fish(bleka2):
+    name: BLEKA 2
+    
+Fish(bleka3):
+    name: BLEKA 3
+    
+Fish(bleka4):
+    name: BLEKA 4
+    
+Fish(braxen):
+    name: BRAXEN
+    
+Fish(fjärsing):
+    name: FJÄRSING
+    
+Fish(braxen):
+    name: BRAXEN
+    
+Fish(gråsej1):
+    name: GRÅSEJ 1
+    
+Fish(gråsej2):
+    name: GRÅSEJ 2
+    
+Fish(gråsej3):
+    name: GRÅSEJ 3
+    
+Fish(gråsej4):
+    name: GRÅSEJ 4
+ 
+Fish(gädda):
+    name: GÄDDA
+    
+Fish(gös):
+    name: GÖS
+    
+Fish(hajor):
+    name: HAJ OR
+    
+Fish(havskatt1):
+    name: HAVSKATT 1
+    
+Fish(havskatt2):
+    name: HAVSKATT 2
+    
+Fish(havskatt3):
+    name: HAVSKATT 3
+    
+Fish(havskatt4):
+    name: HAVSKATT 4
+    
+Fish(havskräfta):
+    name: HAVSKRÄFTA
+        
+Fish(helgeflundra):
+    name: HELGEFLUND
+    
+Fish(hummer):
+    name: HUMMER
+
+Fish(knot):
+    name: KNOT
+  
+Fish(kolja1):
+    name: KOLJA 1
+    
+Fish(kolja2):
+    name: KOLJA 2
+    
+Fish(kolja3):
+    name: KOLJA 3
+    
+Fish(kolja4):
+    name: KOLJA 4
+      
+Fish(kummel1):
+    name: KUMMEL 1
+    
+Fish(kummel2):
+    name: KUMMEL 2
+    
+Fish(kummel3):
+    name: KUMMEL 3
+    
+Fish(kummel4):
+    name: KUMMEL 4
+
+Fish(kummel5):
+    name: KUMMEL 5
+ 
+Fish(lake):
+    name: LAKE
+  
+Fish(lax):
+    name: LAX
+    
+Fish(lubb):
+    name: LUBB
+    
+Fish(långa1):
+    name: LÅNGA 1
+    
+Fish(långa2):
+    name: LÅNGA 2
+    
+Fish(långa3):
+    name: LÅNGA 3
+    
+Fish(långa4):
+    name: LÅNGA 4
+    
+Fish(löjrom):
+    name: LÖJROM
+  
+Fish(marulk):
+    name: MARULK
+    
+Fish(marulk-u-h):
+    name: MARULK U/H
+  
+Fish(ostron):
+    name: OSTRON
+ 
+Fish(piggvar1):
+    name: PIGGVAR 1
+    
+Fish(piggvar2):
+    name: PIGGVAR 2
+    
+Fish(piggvar3):
+    name: PIGGVAR 3
+    
+Fish(piggvar4):
+    name: PIGGVAR 4
+    
+Fish(rocka):
+    name: ROCKA
+    
+Fish(råräka):
+    name: RÅRÄKA
+ 
+Fish(räka):
+    name: RÄKA
+    
+Fish(rödspotta1):
+    name: RÖDSPOTTA 1
+    
+Fish(rödspotta2):
+    name: RÖDSPOTTA 2
+    
+Fish(rödspotta3):
+    name: RÖDSPOTTA 3
+    
+Fish(rödspotta4):
+    name: RÖDSPOTTA 4
+    
+Fish(rödtunga1):
+    name: RÖDTUNGA 1
+    
+Fish(rödtunga2):
+    name: RÖDTUNGA 2
+    
+Fish(rödtunga3):
+    name: RÖDTUNGA 3
+    
+Fish(rödtunga4):
+    name: RÖDTUNGA 4
+     
+Fish(slätvar):
+    name: SLÄTVAR
+    
+Fish(stenbit):
+    name: STENBIT
+    
+Fish(torsk1):
+    name: TORSK 1
+    
+Fish(torsk2):
+    name: TORSK 2
+    
+Fish(torsk3):
+    name: TORSK 3
+    
+Fish(torsk4):
+    name: TORSK 4
+    
+Fish(torsk5):
+    name: TORSK 5
+    
+Fish(torksfilé):
+    name: TORSKFILE
+    
+Fish(torsklever):
+    name: TORSKLEVER
+    
+Fish(äktatunga1):
+    name: ÄKTATUNGA 1
+    
+Fish(äktatunga2):
+    name: ÄKTATUNGA 2
+    
+Fish(äktatunga3):
+    name: ÄKTATUNGA 3
+    
+Fish(äktatunga4):
+    name: ÄKTATUNGA 4
+     
