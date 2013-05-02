@@ -14,37 +14,60 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import play.Logger;
+import play.jobs.Every;
 import play.jobs.Job;
-import play.jobs.On;
 import utils.DateUtil;
 
-/** Fire at 12pm (noon) every day **/
-@On("0 0 10 * * ?")
+@Every("5mn")
 public class FetchPrices extends Job {
 	public void doJob() {
 		Logger.info("Fetching prices from the fish market ...");
 		Document doc;
+		DateTime auctionDate;
 
 		try {
 			doc = Jsoup.connect("http://www.gfa.se/prisnotering.htm").get();
 
 			Element dateTable = doc.select("table").get(1);
 			String dateString = dateTable.select("tr > td").get(3).text();
-			DateTime auctionDate = DateUtil.createDateFromString(dateString,
-					false);
+			auctionDate = DateUtil.createDateFromString(dateString, false);
 
-			Elements tables = doc.getElementsByTag("table");
+			// Do we already have prices for this date?
+			Quotation quotation = Quotation
+					.find("byQuotationDate", auctionDate.toDate()).first();
 
-			for (Element table : tables) {
+			if (quotation == null) {
+				Logger.info("We do not have quotations for "+DateUtil.getDateAsString(auctionDate, false)+", lets fetch those...");
+				Elements tables = doc.getElementsByTag("table");
+				FetchPrices.extractPriceData(tables, true, auctionDate);
 
-				Elements tds = table.getElementsByTag("td");
-				for (Element td : tds) {
-					Logger.debug(td.text());
-
+				System.out.println("Calling next page:");
+				// Fetch the following two pages (never exceeds three pages)
+				for (int pageNo = 2; pageNo < 4; pageNo++) {
+					String pageUrl = "http://www.gfa.se/prisnoteringSida"+pageNo+".htm";
+					Logger.info("Fetching prices from "+pageUrl);
+					doc = Jsoup.connect(pageUrl)
+							.get();
+					Element dateTable2 = doc.select("table").get(0);
+					String dateString2 = dateTable2.select("tr > td").get(2).text();
+					DateTime auctionDate2 = DateUtil.createDateFromString(
+							dateString2, false);
+					Logger.debug("Next page date: " + dateString2);
+					// Check that this page is not holding prices from an earlier date
+					if (auctionDate.isEqual(auctionDate2)) {
+						FetchPrices.extractPriceData(doc.getElementsByTag("table"),
+								false, auctionDate);
+					}else{
+						Logger.info(pageUrl+ " holds quotations for another date, and seems to just linger around, ignore it...");
+					}
 				}
+			}else {
+				// existing
+				Logger.info("Quotations for "+DateUtil.getDateAsString(auctionDate, false)+" already fetched.");
 			}
+
 		} catch (IOException e) {
-			Logger.error(e, "Failed scraping prices from the fish market");
+			Logger.error("An error occurred when trying to fetch prices from fish market", e);
 		}
 
 	}
