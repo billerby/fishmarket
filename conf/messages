@@ -13,6 +13,7 @@ quotations.boxes=Antal lådor
 quotations.kilos=Antal kilo
 quotations.averagePrice=Notering medel
 quotations.maxPrice=Notering högsta
+quotations.plot.header=Prisutveckling
 
 #Pagination
 play-paginate.first=&laquo;&nbsp;Första

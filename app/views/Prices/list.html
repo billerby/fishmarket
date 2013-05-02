@@ -3,12 +3,12 @@
 #{if paginator != null && paginator.size() != 0}
 <div class="row-fluid">
 	<div class="span8">
-		<h2>&{'quotations.header'} ${maxDateString}</h2>
+		<h2>&{'quotations.header'} ${dateToFetchString}</h2>
 	</div>
 	<div class="span4">
 		#{form @Prices.search()}
-		<div class="input-append date" id="datepicker" data-date="2013-04-30" data-date-format="yyyy-mm-dd">
-  			<input id="input-datepicker" class="span2" size="16" type="text" value="${flash.quotationDate}">
+		<div class="input-append date" id="datepicker" data-date="${dateToFetchString}" data-date-format="yyyy-mm-dd">
+  			<input id="input-datepicker" size="11" type="text" value="${dateToFetchString}">
   			<span class="add-on"><i class="icon-th"></i></span>
 		</div>
 		#{/form}
@@ -47,7 +47,7 @@
 <div class="row-fluid">
 	<div class="span3">
 		<div class="alert">
-			<button class="close" data-dismiss="alert">�</button>
+			<button class="close" data-dismiss="alert">OK</button>
 			Hittade inga prisnoteringar.
 		</div>
 	</div>
@@ -60,6 +60,8 @@
 		$('#datepicker').datepicker({
 			format: 'yyyy-mm-dd',
 			weekStart: 1,
+			daysOfWeekDisabled:[0,6],
+			language:'sv',
 
 		}).on('changeDate', function(ev){			
 			var d = $('#input-datepicker').val();

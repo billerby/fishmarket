@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>#{get 'title' /}</title>
-        <meta charset="${_response_encoding}">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<meta name="description" content="">
     	<meta name="author" content="">
@@ -16,6 +16,7 @@
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.9.1.min.js'}" type="text/javascript" charset="UTF-8"></script>
        	<script src="/public/javascripts/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+       	<script src="/public/javascripts/bootstrap-datepicker/js/locales/bootstrap-datepicker.sv.js"></script>
 		
         
         #{get 'moreScripts' /}
@@ -59,11 +60,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">&{'navigation.sitename'}</a>
+          <a class="brand" href="/prices/list">&{'navigation.sitename'}</a>
           <div class="nav-collapse">
             <ul class="nav">
                 <li class="active">
-              		<a href="/Prices/list">&{'navigation.home'}</a>
+              		<a href="/prices/list">&{'navigation.home'}</a>
               	</li>
           </div><!--/.nav-collapse -->
         </div>
@@ -76,7 +77,7 @@
 	
 	<div id="footer">
       <div class="container">
-        <p class="muted credit">&copy; 2013 fiskpriser.nu</p>
+        <p class="muted credit">&copy; 2013 räkpriser.se</p>
       </div>
     </div>
 	

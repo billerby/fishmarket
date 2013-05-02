@@ -26,12 +26,18 @@ public class Prices extends Controller {
 		ValuePaginator paginator = new ValuePaginator(lastQuotations);
 		paginator.setPageSize(15);
 		
-		String maxDateString = DateUtil.getDateAsString(new DateTime(dateToFetch), false);
-		render(paginator, maxDateString);
+		String dateToFetchString = DateUtil.getDateAsString(new DateTime(dateToFetch), false);
+		render(paginator, dateToFetchString);
 
 	}
 	
 	public static void search(){
+		render();
+	}
+	
+	public static void plot(String fishId){
+		Fish fish = Fish.findById(new Long(fishId));
+		List<Quotation> quotations = Quotation.find("bySpecies", fish).fetch();
 		render();
 	}
 

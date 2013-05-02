@@ -12,5 +12,6 @@ GET     /favicon.ico                            404
 GET     /public/                                staticDir:public
 
 GET     /prices/list/{simpleDate} 				Prices.list
+GET     /prices/plot/{fishId} 					Prices.plot
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
