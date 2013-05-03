@@ -14,6 +14,7 @@ quotations.kilos=Antal kilo
 quotations.averagePrice=Notering medel
 quotations.maxPrice=Notering högsta
 quotations.plot.header=Prisutveckling
+quotations.noneFound=Inga prisnoteringar finns registrerade för 
 
 #Pagination
 play-paginate.first=&laquo;&nbsp;Första
