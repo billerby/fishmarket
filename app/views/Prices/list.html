@@ -29,7 +29,18 @@ path {
     background: yellow;
     box-shadow: 2px 2px 1px #888;
 }
-
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: lightsteelblue;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
 </style>
 <div class="row-fluid">
 	<div class="span5">
@@ -126,6 +137,7 @@ path {
 		}, width = 500 - margin.left - margin.right, height = 240 - margin.top
 				- margin.bottom;
 		var parseDate = d3.time.format("%Y-%m-%d").parse;
+		var formatTime = d3.time.format("%e %B");
 		var x = d3.time.scale().range([ 0, width ]);
 		var y = d3.scale.linear().range([ height, 0 ]);
 		var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5)
@@ -173,19 +185,50 @@ path {
 			.attr("class", "line").style("stroke", "mediumseagreen").attr("d",
 					boxesline(data));
 
+			var div = d3.select("body").append("div")   
+		    	.attr("class", "tooltip")               
+		    	.style("opacity", 0);
+			
 			svg.selectAll("dot").data(data).enter().append("circle").attr("r",
-					2.5).attr("cx", function(d) {
+					3.5).attr("cx", function(d) {
 				return x(d.date);
 			}).attr("cy", function(d) {
 				return y(d.amount);
-			});
+			})
+			.on("mouseover", function(d) {      
+	            div.transition()        
+	                .duration(200)      
+	                .style("opacity", .9);      
+	            div .html(formatTime(d.date) + "<br/>"  + d.amount)  
+	                .style("left", (d3.event.pageX) + "px")     
+	                .style("top", (d3.event.pageY - 28) + "px");    
+	            })                  
+	        .on("mouseout", function(d) {       
+	            div.transition()        
+	                .duration(500)      
+	                .style("opacity", 0);   
+	        });
+			
+			
 			
 			svg.selectAll("dot").data(data).enter().append("circle").attr("r",
-					2.5).attr("cx", function(d) {
+					3.5).attr("cx", function(d) {
 				return x(d.date);
 			}).attr("cy", function(d) {
 				return y(d.boxes);
-			});
+			}).on("mouseover", function(d) {      
+	            div.transition()        
+                .duration(200)      
+                .style("opacity", .9);      
+            div .html(formatTime(d.date) + "<br/>"  + d.boxes)  
+                .style("left", (d3.event.pageX) + "px")     
+                .style("top", (d3.event.pageY - 28) + "px");    
+            })                  
+        .on("mouseout", function(d) {       
+            div.transition()        
+                .duration(500)      
+                .style("opacity", 0);   
+        });
 
 			svg.append("g") // Add the X Axis
 			.attr("class", "x axis").attr("transform",
