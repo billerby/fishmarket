@@ -22,6 +22,14 @@ path {
 	stroke-width: 1;
 	shape-rendering: crispEdges;
 }
+
+.legend {
+    padding: 5px;
+    font: 10px sans-serif;
+    background: yellow;
+    box-shadow: 2px 2px 1px #888;
+}
+
 </style>
 <div class="row-fluid">
 	<div class="span5">
@@ -47,7 +55,7 @@ path {
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">x</button>
-				<h3 id="myModalLabel">Prisutveckling </h3>
+				<h3 id="myModalLabel">Prisutveckling</h3>
 			</div>
 			<div class="modal-body" id="chartContainer"></div>
 			<div class="modal-footer">
@@ -120,18 +128,27 @@ path {
 		var parseDate = d3.time.format("%Y-%m-%d").parse;
 		var x = d3.time.scale().range([ 0, width ]);
 		var y = d3.scale.linear().range([ height, 0 ]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5).tickFormat(d3.time.format("%Y-%m-%d"));
+		var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5)
+				.tickFormat(d3.time.format("%Y-%m-%d"));
 		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
-		var valueline = d3.svg.line().x(function(d) {
+		var amountline = d3.svg.line().x(function(d) {
 			return x(d.date);
 		}).y(function(d) {
 			return y(d.amount);
+		});
+
+		var boxesline = d3.svg.line().x(function(d) {
+			return x(d.date);
+		}).y(function(d) {
+			return y(d.boxes);
 		});
 		var svg = d3.select("#chartContainer").append("svg:svg").attr("width",
 				width + margin.left + margin.right).attr("height",
 				height + margin.top + margin.bottom).append("g").attr(
 				"transform",
 				"translate(" + margin.left + "," + margin.top + ")");
+
+		var color = d3.scale.category10();
 
 		// Get the data
 		d3.json("/prices/getDataForSpecies/" + fishId, function(error, data) {
@@ -143,31 +160,79 @@ path {
 			x.domain(d3.extent(data, function(d) {
 				return d.date;
 			}));
+
 			y.domain([ 0, d3.max(data, function(d) {
-				return d.amount;
+				return Math.max(d.amount, d.boxes);
 			}) ]);
-			svg.append("path") // Add the valueline path.
-			.attr("d", valueline(data));
+
+			svg.append("path") // Add the amountline path.
+			.attr("class", "line").style("stroke", "steelblue")
+			.attr("d", amountline(data));
+
+			svg.append("path") // Add the boxesline path.
+			.attr("class", "line").style("stroke", "mediumseagreen").attr("d",
+					boxesline(data));
+
+			svg.selectAll("dot").data(data).enter().append("circle").attr("r",
+					2.5).attr("cx", function(d) {
+				return x(d.date);
+			}).attr("cy", function(d) {
+				return y(d.amount);
+			});
 			
-			 svg.selectAll("dot")
-		        .data(data)
-		    .enter().append("circle")
-		        .attr("r", 3.5)
-		        .attr("cx", function(d) { return x(d.date); })
-		        .attr("cy", function(d) { return y(d.amount); });
-			
+			svg.selectAll("dot").data(data).enter().append("circle").attr("r",
+					2.5).attr("cx", function(d) {
+				return x(d.date);
+			}).attr("cy", function(d) {
+				return y(d.boxes);
+			});
+
 			svg.append("g") // Add the X Axis
 			.attr("class", "x axis").attr("transform",
 					"translate(0," + height + ")").call(xAxis)
-			.selectAll("text")
-			.style("text-anchor", "end")
-			.attr("dx", "-.8em")
-			.attr("dy", ".15em")
-			.attr("transform", function(d) {
-				return "rotate(-65)"
-			});
+					.selectAll("text").style("text-anchor", "end").attr("dx",
+							"-.5em").attr("dy", ".10em").attr("transform",
+							function(d) {
+								return "rotate(-65)"
+							});
 			svg.append("g") // Add the Y Axis
 			.attr("class", "y axis").call(yAxis);
+
+			
+			// add legend   
+			var legend = svg.append("g")
+			  .attr("class", "legend")
+			  .attr("height", 10)
+			  .attr("width", 10)
+		    .attr('transform', 'translate(-30,-30)')    
+		      
+		    var colors = [  ["&{'quotations.averagePrice'}", "steelblue"],
+					    ["&{'quotations.boxes'}", "mediumseagreen"]
+					  ];           
+		    
+		    legend.selectAll('rect')
+		      .data(colors)
+		      .enter()	
+		      .append("rect")
+			  .attr("x", width - 35)
+		      .attr("y", function(d, i){ return i *  20;})
+			  .attr("width", 10)
+			  .attr("height", 10)
+			  .style("fill", function(d) { 
+		        var color = d[1];;
+		        return color;
+		      })
+		      
+		      legend.selectAll('text')
+		      .data(colors)
+		      .enter()
+		      .append("text")
+			  .attr("x", width - 20)
+		      .attr("y", function(d, i){ return i *  20 + 9;})
+			  .text(function(d) {
+		        var text = d[0];
+		        return text;
+		      });
 		});
 
 	}
@@ -195,9 +260,9 @@ path {
 		window.location.href = '/list/' + d.toString('yyyy-MM-dd');
 
 	}
-	
-	$('#myModal').on('hidden', function () {
-		  // Remove chart
-		  d3.select("svg").remove();
+
+	$('#myModal').on('hidden', function() {
+		// Remove chart
+		d3.select("svg").remove();
 	})
 </script>

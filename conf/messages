@@ -27,3 +27,11 @@ play-paginate.summary.to=till
 play-paginate.summary.from=av
 play-paginate.summary.entries=noteringar
 
+#user form
+email=E-postadress
+password=Lösenord
+firstname=Förnamn
+lastname=Efternamn
+cellno=Mobilnummer
+admin=Administratör
+
