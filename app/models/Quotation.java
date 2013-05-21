@@ -22,8 +22,8 @@ public class Quotation extends Model implements Comparable<Quotation>{
 	public int kilos;
 	@Override
 	public int compareTo(Quotation o) {
-		if (o != null && o.quotationDate != null){
-			return o.quotationDate.compareTo(quotationDate);
+		if (o != null && o.species != null){
+			return o.species.name.compareTo(this.species.name);
 		}else {
 			return 0;
 		}
