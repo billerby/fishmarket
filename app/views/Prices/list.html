@@ -1,5 +1,6 @@
-#{extends 'main.html' /} #{set title:'Prisnoteringar' /} #{if paginator
-!= null && paginator.size() != 0}
+#{extends 'main.html' /} 
+#{set title:'Priser' /}
+#{if paginator != null && paginator.size() != 0}
 
 <script src="http://d3js.org/d3.v3.js"></script>
 
@@ -102,7 +103,7 @@ div.tooltip {
 							onclick="plotChart('${quotation.species.id}','${quotation.species.name}');">
 							<i class="icon-signal"></i>
 						</button></td>
-					<td>${quotation.species.name}</td>
+					<td><a href="/prices/getDataForSpecies/${quotation.species.id}">${quotation.species.name}</a></td>
 					<td>${quotation.boxes}</td>
 					<td>${quotation.kilos}</td>
 					<td>${quotation.avgPrice}</td>
@@ -169,7 +170,7 @@ div.tooltip {
 		var color = d3.scale.category10();
 
 		// Get the data
-		d3.json("/prices/getDataForSpecies/" + fishId, function(error, data) {
+		d3.json("/prices/getLastMonthDataForSpecies/" + fishId, function(error, data) {
 			data.forEach(function(d) {
 				d.date = parseDate(d.quotationDate);
 				//d.amount = +d.avgPrice.money.amount;

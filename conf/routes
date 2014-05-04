@@ -12,7 +12,11 @@ GET     /favicon.ico                            404
 GET     /public/                                staticDir:public
 
 GET     /prices/list/{simpleDate} 				Prices.list
-GET     /prices/getDataForSpecies/{fishId} 		Prices.getDataForSpecies
+GET     /prices/getLastMonthDataForSpecies/{fishId} 		Prices.getLastMonthDataForSpecies
+GET     /prices/getDataForSpecies/{fishId}      Prices.getDataForSpecies
+
+GET     /species/list                           Species.list
+
 
 # Import CRUD routes
 *      /admin              module:crud

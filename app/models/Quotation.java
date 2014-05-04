@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +49,33 @@ public class Quotation extends Model implements Comparable<Quotation>{
 		query.where(builder.and(
 				builder.greaterThanOrEqualTo(quotationDate, aMonthAgo),
 				builder.equal(s, species)));
-		System.out.println(species.name);
 		return JPA.em().createQuery(query).getResultList();
 	}
+	
+	public static List<Quotation> getQuotations(Fish species){
+		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
+		//Date aMonthAgo = new DateTime().minusMonths(1).toDate();
+		
+		CriteriaQuery<Quotation> query = builder.createQuery(Quotation.class);
+		Root<Quotation> e = query.from(Quotation.class);
+		//Path<Date> quotationDate = e.get(Quotation_.quotationDate);
+		Path<Fish> s = e.get(Quotation_.species);
+		query.where(builder.and(
+				//builder.greaterThanOrEqualTo(quotationDate, aMonthAgo),
+				builder.equal(s, species)));
+		List<Quotation> quotations = JPA.em().createQuery(query).getResultList();
+		Collections.sort(quotations,dateComparator);
+		return quotations;
+	}
+	
+    public static final Comparator<Quotation> dateComparator = new Comparator<Quotation>(){
+
+        @Override
+        public int compare(Quotation o1, Quotation o2) {
+        	// descending
+            return o2.quotationDate.compareTo(o1.quotationDate);
+        }
+      
+    };
+
 }

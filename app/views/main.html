@@ -64,9 +64,11 @@
           <a class="brand" href="/prices/list">&{'navigation.sitename'}</a>
           <div class="nav-collapse">
             <ul class="nav">
-                <li class="active">
-              		<a href="/prices/list">&{'navigation.home'}</a>
+            	<li #{if title == 'Priser'} class="active" #{/if}>
+              		<a href="/prices/list">Prisnoteringar alla</a>
               	</li>
+              	<li #{if title == 'Prisnoteringar per art'} class="active" #{/if}><a href="/prices/getDataForSpecies/53">Prisnoteringar/Art</a></li>
+              	<li #{if title == 'Arter'} class="active" #{/if}><a href="/species/list">Arter</a></li>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -78,7 +80,7 @@
 	
 	<div id="footer">
       <div class="container">
-        <p class="muted credit">&copy; 2013 räkpriser.se</p>
+        <p class="muted credit">&copy; 2014 fiskpris.se</p>
       </div>
     </div>
 	

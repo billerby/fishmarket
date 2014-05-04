@@ -43,7 +43,7 @@ public class Prices extends Controller {
 	}
 	
 	
-	public static void getDataForSpecies(String fishId){
+	public static void getLastMonthDataForSpecies(String fishId){
 		Fish fish = Fish.findById(new Long(fishId));
 		
 		List<Quotation> quotations = Quotation.getQuotationsForLastMonth(fish);
@@ -53,6 +53,20 @@ public class Prices extends Controller {
 		renderJSON(quotations, adapters);
 		
 	}
-	
+	public static void getDataForSpecies(String fishId){
+		Fish fish = Fish.findById(new Long(fishId));
+		
+		List<Quotation> quotations = Quotation.getQuotations(fish);
+		
+		Collections.sort(quotations);
+		DateTypeAdapter adapters = new DateTypeAdapter();
+		ValuePaginator paginator = new ValuePaginator(quotations);
+		paginator.setPageSize(15);
+
+		
+		render(paginator, fish, adapters);
+		//renderJSON(quotations, adapters);
+		
+	}
 	
 }

@@ -1,0 +1,43 @@
+#{extends 'main.html' /} 
+#{set title:'Prisnoteringar per art'/}
+#{if paginator != null && paginator.size() != 0}
+<div class="row-fluid">
+	<div class="span7">
+		<h3>${fish.name}</h3>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span7">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Snittpris</th>
+					<th>Högsta notering</th>
+					<th>Antal lådor</th>
+					<th>Antal kilo</th>
+				</tr>
+			</thead>
+			<tbody>
+				#{paginate.list items:paginator, as:'quotation'}
+				<tr>
+					<td>${quotation.quotationDate.format('yyyy-MM-dd')}</td>
+					<td>${quotation.avgPrice}</td>
+					<td>${quotation.maxPrice}</td>
+					<td>${quotation.boxes}</td>
+					<td>${quotation.kilos}</td>
+				</tr>
+				#{/paginate.list}
+			</tbody>
+		</table>
+		#{paginate.controls items:paginator /}
+	</div>
+</div>
+#{/if}
+#{else}
+<div class="row-fluid">
+	<div class="span7">
+		<h3>Inga prisnoteringar finns för ${fish.name}</h3>
+	</div>
+</div>
+#{/else}
