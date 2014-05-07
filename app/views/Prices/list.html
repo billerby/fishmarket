@@ -52,10 +52,11 @@ div.tooltip {
 </style>
 <div class="row">
 	<div class="col-sm-5 col-md-5">
-		<h3>&{'quotations.header'}</h3>
+		<span style="vertical-align: middle"><h3>&{'quotations.header'}</h3></span>
 	</div>
 	<div class="col-sm-2 col-md-2">
-		#{form @Prices.search()} <span style="vertical-align: middle">
+	<span style="vertical-align: middle">
+		#{form @Prices.list()} 
 		
 			<div class="form-group">
                 <div class='input-group date' id='datepicker'>
@@ -64,7 +65,8 @@ div.tooltip {
                     </span>
                 </div>
             </div>
-		</span> #{/form}
+		 #{/form}
+		 </span>
 	</div>
 </div>
 <div class="row">
@@ -124,8 +126,8 @@ div.tooltip {
 #{/if} #{else}
 <div class="row">
 	<div class="col-sm-9 col-md-9">
-		<div class="alert alert-warning alert-dismissable">
-			<button class="close" data-dismiss="alert">
+		<div  class="alert alert-warning alert-dismissable">
+			<button id="myAlert" class="close" data-dismiss="alert">
 				<i class="glyphicon glyphicon-remove"></i>
 			</button>
 			&{'quotations.noneFound'} ${dateToFetchString}
@@ -302,6 +304,10 @@ div.tooltip {
 	$('#myModal').on('hidden.bs.modal', function() {
 		// Remove chart
 		d3.select("svg").remove();
+	})
+	
+	$('#myAlert').click(function () {
+		window.location.href = '/prices/list'
 	})
 </script>
 <script>
