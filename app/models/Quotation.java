@@ -51,6 +51,7 @@ public class Quotation extends Model implements Comparable<Quotation>{
 				builder.equal(s, species)));
 		return JPA.em().createQuery(query).getResultList();
 	}
+
 	
 	public static List<Quotation> getQuotations(Fish species){
 		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();

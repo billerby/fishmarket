@@ -1,24 +1,23 @@
 #{extends 'main.html' /} 
 #{set title:'Arter' /} 
 
-
-<div class="row-fluid">
-	<div class="span7">
-		<table class="table table-hover">
+<div class="row">
+	<div class="col-sm-7 col-md-7">
+			<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>&{'quotations.nameOfSpecies'}</th>
 					<th>Prishistorik (senast först)</th>
-					<th>Prishistorik (lägsta först)</th>
 				</tr>
 			</thead>
 			<tbody>
-				#{paginate.list items:paginator, as:'fish'}
+			#{paginate.list items:paginator, as:'fish'}
 				<tr>
 					<td>${fish.name}</td>
-					<td><a href="/prices/getDataForSpecies/${fish.id}">prisnoteringar</a>
+					<td><a href="/prices/getDataForSpecies/${fish.id}">Historisk prisdata</a>
+					</td>
 				</tr>
-				#{/paginate.list}
+			#{/paginate.list}
 			</tbody>
 		</table>
 		#{paginate.controls items:paginator /}

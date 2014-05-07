@@ -53,6 +53,8 @@ public class Prices extends Controller {
 		renderJSON(quotations, adapters);
 		
 	}
+	
+
 	public static void getDataForSpecies(String fishId){
 		Fish fish = Fish.findById(new Long(fishId));
 		

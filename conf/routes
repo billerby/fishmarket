@@ -16,6 +16,7 @@ GET     /prices/getLastMonthDataForSpecies/{fishId} 		Prices.getLastMonthDataFor
 GET     /prices/getDataForSpecies/{fishId}      Prices.getDataForSpecies
 
 GET     /species/list                           Species.list
+GET     /species/listJson                       Species.listJson
 
 
 # Import CRUD routes
