@@ -5,6 +5,13 @@
 	<div class="col-sm-5 col-md-5">
 		<h3>${fish.name}</h3>
 	</div>
+	#{form @Prices.findQuotationsByFishName()} 
+	<div class="col-sm-2 col-md-2">
+		<div id="remote">
+  			<input name="fishName" id="fishName" class="typeahead" type="text" placeholder="Sök art">
+		</div>
+	</div>
+	#{/form}
 	
 </div>
 <div class="row">
@@ -43,6 +50,36 @@
 </div>
 #{/else}
 <script>
+
+	 
+	var species = new Bloodhound({
+  		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+  		queryTokenizer: Bloodhound.tokenizers.whitespace,
+  		prefetch: {
+  			url: '/species/listJson',
+  			filter: function(list){
+  				return $.map(list, function(species){
+  					return { name : species };
+  				});
+  			}
+  		}
+	});
+	
+	species.initialize();
+	
+	var typeahead = $('.typeahead');
+	 
+	$('#remote .typeahead').typeahead(null, {
+	  name: 'species',
+	  displayKey: 'name',
+	  source: species.ttAdapter()
+	});
+	
+	var numSelectedHandler = function (eventObject, suggestionObject, suggestionDataset) {
+    	document.forms[0].submit();
+	};
+
+	typeahead.on('typeahead:selected', numSelectedHandler);
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

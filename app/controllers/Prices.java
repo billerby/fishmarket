@@ -71,4 +71,20 @@ public class Prices extends Controller {
 		
 	}
 	
+	public static void findQuotationsByFishName(String fishName){
+		System.out.println("namn:"+fishName);
+		List<Fish> fishes = Fish.find("byName", fishName).fetch();
+		Fish fish = fishes.get(0);
+		List<Quotation> quotations = Quotation.getQuotations(fish);
+		
+		Collections.sort(quotations);
+		DateTypeAdapter adapters = new DateTypeAdapter();
+		ValuePaginator paginator = new ValuePaginator(quotations);
+		paginator.setPageSize(15);
+
+		
+		renderTemplate("Prices/getDataForSpecies.html",paginator, fish, adapters);
+
+	}
+	
 }

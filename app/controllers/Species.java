@@ -16,9 +16,9 @@ public class Species extends Controller {
 	}
 	public static void listJson() {
 		List<Fish> species = Fish.findAll();
-		List<String> fishes = new ArrayList();
+		List<Fish> fishes = new ArrayList();
 		for (Fish fish : species){
-			fishes.add(fish.name);
+			fishes.add(fish);
 		}
 		renderJSON(fishes);
 	}
