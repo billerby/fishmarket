@@ -32,46 +32,23 @@
         
         #{get 'moreScripts' /}
         
-        <style type="text/css">
-            /* Sticky footer styles
-      -------------------------------------------------- */
 
-      html,
-      body {
-        height: 100%;
-        padding-top: 40px;
-        /* The html and body elements cannot have any padding or margin. */
-      }
-
-      /* Wrapper for page content to push down footer */
-      #wrap {
-        min-height: 100%;
-        height: auto !important;
-        height: 100%;
-        /* Negative indent footer by it's height */
-        margin: 0 auto -60px;
-      }
-
-      /* Set the fixed height of the footer here */
-      #push,
-      #footer {
-        height: 60px;
-      }
-      #footer {
-        background-color: #f5f5f5;
-      }
-    	</style>
     </head>
+	<div class="container">
 
-      <div class="navbar navbar-fixed-top navbar-default">
-      <div class="container">
-        <div class="container"><div class="navbar-header"><a class="navbar-brand" href="/">&{'navigation.sitename'}</a></div>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          
-          <div class="navbar-collapse">
+      <!-- Static navbar -->
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">&{'navigation.sitename'}</a>
+          </div>
+          <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
             	<li #{if title == 'Priser'} class="active" #{/if}>
               		<a href="/prices/list">Prisnoteringar alla</a>
@@ -79,16 +56,12 @@
               	<li #{if title == 'Prisnoteringar per art'} class="active" #{/if}><a href="/prices/getDataForSpecies/53">Prisnoteringar/art</a></li>
               	<li #{if title == 'Arter'} class="active" #{/if}><a href="/species/list">Arter</a></li>          
               	<li #{if title == 'Om fiskpris.se'} class="active" #{/if}><a href="/about">Sorteringsregler</a></li>
-              	</ul>
-          </div>
-              	<!--/.nav-collapse -->
-        </div>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
       </div>
-    </div>
-	
-	    <div class="container">
-			#{doLayout /}
-		</div> <!-- /container -->
+	#{doLayout /}
+	</div> <!-- /container -->
 	
 	<div id="footer">
       <div class="container">
