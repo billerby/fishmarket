@@ -71,7 +71,7 @@ input[type=text] {
 			#{paginate.list items:paginator, as:'quotation'}
 			<tr>
 				<td><button type="button" class="btn btn-default" onclick="plotChart('${quotation.species.id}','${quotation.species.name}');">
-						<i class="glyphicon glyphicon-stats"></i>
+						  <span class="glyphicon glyphicon-stats"></span>
 					</button></td>
 				<td><a href="/prices/getDataForSpecies/${quotation.species.id}">${quotation.species.name}</a></td>
 				<td>${quotation.boxes}</td>

@@ -18,6 +18,7 @@ GET     /prices/getDataForSpecies/{fishId}      Prices.getDataForSpecies
 GET     /species/list                           Species.list
 GET     /species/listJson                       Species.listJson
 
+GET     /about									About.index
 
 # Administration
 GET     /admin/?                                Admin.index
