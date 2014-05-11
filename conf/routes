@@ -19,8 +19,9 @@ GET     /species/list                           Species.list
 GET     /species/listJson                       Species.listJson
 
 
-# Import CRUD routes
-*      /admin              module:crud
+# Administration
+GET     /admin/?                                Admin.index
+*       /admin                                  module:crud
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

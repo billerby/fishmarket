@@ -1,4 +1,200 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
+#{set title:'fiskpris.se'/}
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h2>Dagsaktuella prisnoteringar från Göteborgs fiskauktion</h2>
+        <p class="lead">Välkommen till fiskpris.se, varje dag hämtar och lagrar vi priser som publicerats på Göteborgs fiskauktions hemsida. 
+        Till en början kan du se det senaste årets priser och antalet lådor som sålts. 
+        Tanken är att ni i förlängningen skall kunna skapa en prenumeration och som notifierar er om priset faller under ett visst värde på just din favoritprodukt.</p>
+        <!--<p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>-->
+      </div>
 
-#{welcome /}
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <h3>Räka</h3>
+          <div id="shrimpContainer"></div>
+        </div>
+        <div class="col-lg-4">
+         <h3>Havskräfta</h3>
+         <div id="nephropsContainer"></div>
+        </div>
+        <div class="col-lg-4">
+         <h3>Torsk</h3>
+         <div id="codContainer"></div>
+        </div>
+      </div>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(loadPriceChart('53'));
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'Company Performance'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+      
+      function drawWanChart(jsonData)
+		 {
+		    jsonData = jQuery.parseJSON(jsonData);
+		
+		    if(jsonData != null)
+		    {                           
+		        data = new google.visualization.DataTable(jsonData);
+		        chart = new Google.visualization.Table(document.getElementById('chart_div'));
+		        chart.draw(data, null);
+		    }
+		 }
+      function loadPriceChart(id){
+	      $.getJSON("prices/getLastMonthDataForSpeciesForGoogleChart/"+id, function(data) { 
+	  		drawWanChart(data);
+	   	  });
+   	  }
+    </script>
+    
+    
+	
+<script type="text/javascript">
+	function plotChart(htmlId, fishId) {
+		
+		var margin = {
+			top : 30,
+			right : 40,
+			bottom : 100,
+			left : 50
+		}, width = 370 - margin.left - margin.right, height = 240 - margin.top
+				- margin.bottom;
+		var parseDate = d3.time.format("%Y-%m-%d").parse;
+		var formatTime = d3.time.format("%e %B");
+		var x = d3.time.scale().range([ 0, width ]);
+		var y = d3.scale.linear().range([ height, 0 ]);
+		var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5)
+				.tickFormat(d3.time.format("%Y-%m-%d"));
+		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
+		var avgamountline = d3.svg.line().x(function(d) {
+			return x(d.date);
+		}).y(function(d) {
+			return y(d.avgPrice.money.amount);
+		});
+
+		var boxesline = d3.svg.line().x(function(d) {
+			return x(d.date);
+		}).y(function(d) {
+			return y(d.boxes);
+		});
+		var svg = d3.select(htmlId).append("svg:svg").attr("width",
+				width + margin.left + margin.right).attr("height",
+				height + margin.top + margin.bottom).append("g").attr(
+				"transform",
+				"translate(" + margin.left + "," + margin.top + ")");
+
+		var color = d3.scale.category10();
+
+		// Get the data
+		d3.json("/prices/getLastMonthDataForSpecies/" + fishId, function(error, data) {
+			data.forEach(function(d) {
+				d.date = parseDate(d.quotationDate);
+				//d.amount = +d.avgPrice.money.amount;
+				d.avgPrice.money.amount = +d.avgPrice.money.amount;
+			});
+			// Scale the range of the data
+			x.domain(d3.extent(data, function(d) {
+				return d.date;
+			}));
+
+			y.domain([ 0, d3.max(data, function(d) {
+				return Math.max(d.avgPrice.money.amount);
+			}) ]);
+
+			svg.append("path") // Add the avgamountline path.
+			.attr("class", "line").style("stroke", "steelblue").attr("d",
+					avgamountline(data));
+
+			var div = d3.select("body").append("div").attr("class", "tooltip")
+					.style("opacity", 0);
+
+			svg.selectAll("dot").data(data).enter().append("circle").attr("r",
+					3.5).attr("cx", function(d) {
+				return x(d.date);
+			}).attr("cy", function(d) {
+				return y(d.avgPrice.money.amount);
+			}).on(
+					"mouseover",
+					function(d) { // Tooltip
+						div.transition().duration(200).style("opacity", .9);
+						div.html(formatTime(d.date) + "<br/>" + d.avgPrice.money.amount + " kr")
+								.style("left", (d3.event.pageX) + "px").style(
+										"top", (d3.event.pageY - 28) + "px");
+					}).on("mouseout", function(d) {
+				div.transition().duration(500).style("opacity", 0);
+			});
+
+
+			svg.append("g") // Add the X Axis
+			.attr("class", "x axis").attr("transform",
+					"translate(0," + height + ")").call(xAxis)
+					.selectAll("text").style("text-anchor", "end").attr("dx",
+							"-.5em").attr("dy", ".10em").attr("transform",
+							function(d) {
+								return "rotate(-65)"
+							});
+			svg.append("g") // Add the Y Axis
+			.attr("class", "y axis").call(yAxis);
+
+			// add legend   
+			var legend = svg.append("g").attr("class", "legend").attr("height",
+					10).attr("width", 10).attr('transform',
+					'translate(-30,-30)')
+
+			var colors = [ [ "&{'quotations.averagePrice'}", "steelblue" ]];
+			
+			legend.selectAll('rect').data(colors).enter().append("rect").attr(
+					"x", width - 35).attr("y", function(d, i) {
+				return i * 20;
+			}).attr("width", 10).attr("height", 10).style("fill", function(d) {
+				var color = d[1];
+				;
+				return color;
+			})
+
+			legend.selectAll('text').data(colors).enter().append("text").attr(
+					"x", width - 20).attr("y", function(d, i) {
+				return i * 20 + 9;
+			}).text(function(d) {
+				var text = d[0];
+				return text;
+			});
+		});
+
+	}
+
+	$(document).ready(function() {
+	
+		plotChart('#shrimpContainer','53');
+		plotChart('#nephropsContainer','23');
+		plotChart('#codContainer','66');
+	});
+
+
+	
+</script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50642289-1', 'fiskpris.se');
+  ga('send', 'pageview');
+
+</script>

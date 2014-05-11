@@ -1,0 +1,12 @@
+#{extends 'main.html' /}
+#{set title:'Administration'/}
+        <h2>Admin</h2>
+            <ul id="tools">
+                <li>
+                    <a href="@{Secure.logout()}">Logga ut.</a>
+                </li>
+                <li>
+                    <a href="@{Users.list()}">Användaradministration</a>
+                </li>
+            </ul>
+        </div>

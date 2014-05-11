@@ -54,6 +54,17 @@ public class Prices extends Controller {
 		
 	}
 	
+	public static void getLastMonthDataForSpeciesForGoogleChart(String fishId){
+		Fish fish = Fish.findById(new Long(fishId));
+		
+		List<Quotation> quotations = Quotation.getQuotationsForLastMonth(fish);
+		
+		Collections.sort(quotations);
+		DateTypeAdapter adapters = new DateTypeAdapter();
+		renderJSON(quotations, adapters);
+		
+	}
+	
 
 	public static void getDataForSpecies(String fishId){
 		Fish fish = Fish.findById(new Long(fishId));
